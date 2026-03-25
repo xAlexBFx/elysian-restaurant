@@ -16,7 +16,7 @@ interface ReservationListProps {
 
 const ReservationList = ({ open, onClose }: ReservationListProps) => {
   const [reservations, setReservations] = useState<Reservation[]>([]);
-  const [receiptModalOpen, setReceiptModalOpen] = useState(false);
+  const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
 
   // Disable scrolling when modal is open
   useEffect(() => {
@@ -46,7 +46,7 @@ const ReservationList = ({ open, onClose }: ReservationListProps) => {
     }
   };
 
-  const generateReceiptHTML = () => {
+  const generateReceiptHTML = (reservation: Reservation) => {
     return `
       <div style="text-align: center; margin-bottom: 30px;">
         <div style="width: 100%; height: 2px; background: #d4a574; margin-bottom: 20px;"></div>
@@ -55,44 +55,42 @@ const ReservationList = ({ open, onClose }: ReservationListProps) => {
       </div>
       
       <div style="border-top: 1px dashed #ccc; border-bottom: 1px dashed #ccc; padding: 20px 0; margin: 20px 0;">
-        ${reservations.map(reservation => `
-          <div style="margin-bottom: 20px;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-              <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #666;">Guest</span>
-              <span style="font-size: 16px; font-weight: 300;">${reservation.guestName}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-              <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #666;">Email</span>
-              <span style="font-size: 14px;">${reservation.guestEmail || 'N/A'}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-              <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #666;">Phone</span>
-              <span style="font-size: 14px;">${reservation.guestPhone || 'N/A'}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-              <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #666;">Date</span>
-              <span style="font-size: 16px; font-weight: 300;">${reservation.reservationDate}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-              <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #666;">Time</span>
-              <span style="font-size: 16px; font-weight: 300;">${reservation.reservationTime}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-              <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #666;">Party</span>
-              <span style="font-size: 16px; font-weight: 300;">${reservation.guestCount} ${reservation.guestCount === 1 ? "Guest" : "Guests"}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-              <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #666;">Table</span>
-              <span style="font-size: 16px; font-weight: 300;">${reservation.tableType}</span>
-            </div>
-            <div style="border-top: 1px dashed #ccc; padding-top: 10px;">
-              <div style="text-align: center;">
-                <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #666; margin-bottom: 5px;">Confirmation</p>
-                <p style="font-size: 14px; letter-spacing: 0.3em; font-family: monospace;">${reservation.confirmationCode}</p>
-              </div>
+        <div style="margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #666;">Guest</span>
+            <span style="font-size: 16px; font-weight: 300;">${reservation.guestName}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #666;">Email</span>
+            <span style="font-size: 14px;">${reservation.guestEmail || 'N/A'}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #666;">Phone</span>
+            <span style="font-size: 14px;">${reservation.guestPhone || 'N/A'}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #666;">Date</span>
+            <span style="font-size: 16px; font-weight: 300;">${reservation.reservationDate}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #666;">Time</span>
+            <span style="font-size: 16px; font-weight: 300;">${reservation.reservationTime}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #666;">Party</span>
+            <span style="font-size: 16px; font-weight: 300;">${reservation.guestCount} ${reservation.guestCount === 1 ? "Guest" : "Guests"}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+            <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #666;">Table</span>
+            <span style="font-size: 16px; font-weight: 300;">${reservation.tableType}</span>
+          </div>
+          <div style="border-top: 1px dashed #ccc; padding-top: 10px;">
+            <div style="text-align: center;">
+              <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #666; margin-bottom: 5px;">Confirmation</p>
+              <p style="font-size: 14px; letter-spacing: 0.3em; font-family: monospace;">${reservation.confirmationCode}</p>
             </div>
           </div>
-        `).join('')}
+        </div>
       </div>
       
       <div style="text-align: center; margin-top: 20px; font-size: 12px; color: #666;">
@@ -117,7 +115,7 @@ const ReservationList = ({ open, onClose }: ReservationListProps) => {
         color: #000;
       `;
       
-      receiptElement.innerHTML = generateReceiptHTML();
+      receiptElement.innerHTML = generateReceiptHTML(reservations[0]);
       document.body.appendChild(receiptElement);
       
       // Capture as image
@@ -201,15 +199,9 @@ const ReservationList = ({ open, onClose }: ReservationListProps) => {
                 </div>
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => setReceiptModalOpen(true)}
-                    className="p-2 text-muted-foreground hover:text-foreground transition-colors"
-                    title="View receipt"
-                  >
-                    <Eye size={16} />
-                  </button>
-                  <button
                     onClick={handleExport}
-                    className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+                    disabled={reservations.length === 0}
+                    className="p-2 text-muted-foreground hover:text-foreground transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                     title="Export reservations"
                   >
                     <Download size={16} />
@@ -277,6 +269,13 @@ const ReservationList = ({ open, onClose }: ReservationListProps) => {
                           </div>
                           
                           <div className="flex items-center gap-2 ml-4">
+                            <button
+                              onClick={() => setSelectedReservation(reservation)}
+                              className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+                              title="View receipt"
+                            >
+                              <Eye size={16} />
+                            </button>
                             {reservation.status === 'confirmed' && (
                               <button
                                 onClick={() => handleStatusUpdate(reservation.id, 'cancelled')}
@@ -299,14 +298,14 @@ const ReservationList = ({ open, onClose }: ReservationListProps) => {
 
       {/* Receipt Modal */}
       <AnimatePresence>
-        {receiptModalOpen && (
+        {selectedReservation && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
-            onClick={() => setReceiptModalOpen(false)}
+            onClick={() => setSelectedReservation(null)}
           >
             <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
 
@@ -320,7 +319,7 @@ const ReservationList = ({ open, onClose }: ReservationListProps) => {
             >
               {/* Close button */}
               <button
-                onClick={() => setReceiptModalOpen(false)}
+                onClick={() => setSelectedReservation(null)}
                 className="absolute top-4 right-4 z-10 p-2 text-gray-500 hover:text-gray-700 transition-colors"
               >
                 <X size={16} />
@@ -329,7 +328,7 @@ const ReservationList = ({ open, onClose }: ReservationListProps) => {
               {/* Receipt content */}
               <div 
                 className="p-8"
-                dangerouslySetInnerHTML={{ __html: generateReceiptHTML() }}
+                dangerouslySetInnerHTML={{ __html: generateReceiptHTML(selectedReservation) }}
               />
             </motion.div>
           </motion.div>
