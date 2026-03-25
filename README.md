@@ -168,3 +168,5 @@ MIT License - feel free to use this project as a template for your own restauran
 ---
 
 Built with ❤️ using React, TypeScript, and Tailwind CSS.
+
+Deplyed project link: 
