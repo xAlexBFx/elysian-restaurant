@@ -1,173 +1,100 @@
 # Élysée Restaurant
+
+*A full-stack React prototype built to demonstrate modern frontend architecture and user experience design.*
+
 <img width="2879" height="1799" alt="Screenshot 2026-03-25 183205" src="https://github.com/user-attachments/assets/2133fd22-abb0-4d77-a413-826254b5971d" />
 
-A modern, elegant restaurant website built with React, TypeScript, and Tailwind CSS. Features a beautiful menu display, reservation system with local storage, and receipt generation.
+## About This Project
 
-## Features
+I built this restaurant reservation application as a portfolio piece to showcase my skills in modern React development, TypeScript, and UI/UX design. The goal was to create a production-quality prototype that demonstrates:
 
-- **Elegant Menu Display** - Beautifully presented menu with categories and detailed dish descriptions
-- **Reservation System** - Book tables with date, time, party size, and table type selection
-- **Receipt Generation** - View and download individual reservation receipts as PNG images
-- **Reservation Management** - View all reservations, cancel confirmed bookings
-- **Responsive Design** - Fully responsive layout optimized for all devices
-- **Local Storage** - Reservations persist in browser local storage
-- **Modern UI** - Built with shadcn/ui components and smooth Framer Motion animations
+- **End-to-end feature development** - From concept to working reservation system
+- **State management patterns** - Handling complex form state and persistent storage
+- **UI component architecture** - Building reusable, accessible components with shadcn/ui
+- **Animation and polish** - Using Framer Motion for smooth, professional transitions
+- **Testing strategy** - Unit tests with Vitest and E2E coverage with Playwright
 
-## Tech Stack
+## What I Built
 
-- **Framework**: React 18 with TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS
-- **UI Components**: shadcn/ui (Radix UI primitives)
-- **Animations**: Framer Motion
-- **Forms**: React Hook Form with Zod validation
-- **Date Handling**: date-fns
-- **Image Capture**: html2canvas (for receipt generation)
-- **Testing**: Vitest + React Testing Library
-- **E2E Testing**: Playwright
+### Core Features
 
-## Getting Started
+| Feature | Technical Challenge |
+|---------|---------------------|
+| **Reservation System** | Multi-step form with React Hook Form + Zod validation |
+| **Local Storage Persistence** | Custom storage service with error handling |
+| **Receipt Generation** | Canvas-based image export using html2canvas |
+| **Responsive Design** | Mobile-first Tailwind CSS with complex layouts |
+| **Animations** | Framer Motion page transitions and micro-interactions |
 
-### Prerequisites
+### Tech Stack
 
-- Node.js 18+ or Bun
-- npm, yarn, or Bun package manager
+- **React 18** with TypeScript for type-safe development
+- **Vite** for fast development and optimized builds
+- **Tailwind CSS** for utility-first styling
+- **shadcn/ui** for accessible, composable UI primitives
+- **React Hook Form + Zod** for robust form handling
+- **Framer Motion** for declarative animations
+- **Vitest + React Testing Library** for unit testing
+- **Playwright** for end-to-end testing
 
-### Installation
+## Key Technical Decisions
+
+### Why Local Storage?
+I chose browser local storage over a backend to keep the deployment simple while still demonstrating data persistence patterns. The storage service abstracts this away, making it trivial to swap in a real API later.
+
+### Component Architecture
+I followed a compound component pattern for the reservation modal, allowing flexible composition while maintaining internal state coherence. The shadcn/ui integration taught me a lot about building truly accessible interfaces.
+
+### Testing Approach
+- **Unit tests** focus on business logic and component behavior
+- **E2E tests** cover critical user paths: booking a table, viewing reservations, downloading receipts
+
+## Running the Project
 
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd elysian-menu-new
-
 # Install dependencies
 npm install
-# or
-bun install
-```
 
-### Development
-
-```bash
-# Start the development server
+# Start development server
 npm run dev
-# or
-bun dev
-```
 
-The application will be available at `http://localhost:5173`
-
-### Build for Production
-
-```bash
-# Build the application
-npm run build
-# or
-bun run build
-```
-
-### Preview Production Build
-
-```bash
-# Preview the production build locally
-npm run preview
-# or
-bun run preview
-```
-
-### Testing
-
-```bash
-# Run unit tests
+# Run tests
 npm test
-
-# Run unit tests in watch mode
-npm run test:watch
-
-# Run E2E tests
 npx playwright test
+
+# Build for production
+npm run build
 ```
-
-## Available Scripts
-
-| Command | Description |
-|---------|-------------|
-| `dev` | Start development server |
-| `build` | Build for production |
-| `build:dev` | Build for development |
-| `preview` | Preview production build |
-| `test` | Run unit tests once |
-| `test:watch` | Run unit tests in watch mode |
-| `lint` | Run ESLint |
 
 ## Project Structure
 
 ```
-├── public/
-│   └── favicon.png
-├── src/
-│   ├── components/
-│   │   ├── ui/           # shadcn/ui components
-│   │   ├── DishSection.tsx
-│   │   ├── HeroSection.tsx
-│   │   ├── LocationSection.tsx
-│   │   ├── ReservationList.tsx
-│   │   ├── ReservationModal.tsx
-│   │   └── ...
-│   ├── hooks/
-│   │   └── use-toast.ts
-│   ├── lib/
-│   │   └── utils.ts
-│   ├── pages/
-│   │   └── Index.tsx
-│   ├── services/
-│   │   └── storageService.ts
-│   ├── App.tsx
-│   └── main.tsx
-├── index.html
-├── package.json
-├── tailwind.config.ts
-├── tsconfig.json
-└── vite.config.ts
+src/
+├── components/        # React components
+│   ├── ui/           # shadcn/ui primitives
+│   ├── DishSection.tsx
+│   ├── ReservationModal.tsx
+│   └── ...
+├── services/
+│   └── storageService.ts   # Local storage abstraction
+├── pages/
+│   └── Index.tsx
+└── ...
 ```
 
-## Key Dependencies
+## Lessons Learned
 
-- **@radix-ui/react-*** - Accessible UI primitives
-- **framer-motion** - Animation library
-- **html2canvas** - HTML to canvas/image conversion
-- **lucide-react** - Icon library
-- **react-hook-form** - Form management
-- **sonner** - Toast notifications
-- **tailwind-merge** + **clsx** - Utility class merging
-- **zod** - Schema validation
-
-## Features in Detail
-
-### Menu Display
-- Categorized menu sections (Starters, Mains, Desserts, Drinks)
-- Beautiful dish cards with descriptions and pricing
-- Elegant typography and spacing
-
-### Reservation System
-- Select date from calendar picker
-- Choose time slot
-- Specify party size
-- Select table type preference
-- Enter guest details with validation
-- Confirmation code generation
-
-### Receipt Management
-- Individual receipt viewing per reservation
-- Receipt download as PNG image
-- Professional receipt layout with restaurant branding
+- **Form validation** - Zod schemas paired with React Hook Form dramatically reduce boilerplate
+- **Canvas generation** - html2canvas has quirks with modern CSS; learned workarounds for flexbox/grid
+- **Animation performance** - Framer Motion's `layout` prop is powerful but needs careful use
+- **Testing async operations** - Properly testing local storage interactions requires cleanup
 
 ## License
 
-MIT License - feel free to use this project as a template for your own restaurant website.
+MIT - Feel free to use this as a reference or starting point for your own projects.
 
 ---
 
-Built with ❤️ using React, TypeScript, and Tailwind CSS.
+Built as a learning exercise and portfolio piece. Open to feedback and questions!
 
-Deplyed project link: 
+Deployed project link: https://elysianrestaurant.netlify.app 
