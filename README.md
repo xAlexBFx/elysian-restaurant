@@ -1,4 +1,5 @@
 # Élysée Restaurant
+<img width="2879" height="1799" alt="Screenshot 2026-03-25 183205" src="https://github.com/user-attachments/assets/2133fd22-abb0-4d77-a413-826254b5971d" />
 
 A modern, elegant restaurant website built with React, TypeScript, and Tailwind CSS. Features a beautiful menu display, reservation system with local storage, and receipt generation.
 
